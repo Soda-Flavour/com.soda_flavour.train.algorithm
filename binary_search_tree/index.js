@@ -21,14 +21,14 @@ class BST {
 
     if (this.root === null) this.root = node;
     else {
-      insertNode(this.root, node);
+      this.insertNode(this.root, node);
     }
   }
 
   insertNode(node, newNode) {
     if (newNode.key < node.key) {
       if (node.left === null) {
-        node.left = node;
+        node.left = newNode;
       } else {
         this.insertNode(node.left, newNode);
       }
@@ -41,20 +41,8 @@ class BST {
     }
   }
 
-  iot() {
-    this.iotNode(this.root, callback);
-  }
-
-  iotNode(node, callback) {
-    if (node) {
-      this.iotNode(node.left, callback);
-      callback(node.key);
-      this.iotnode(node.right, callback);
-    }
-  }
-
   min() {
-    this.minNode(this.root);
+    return this.minNode(this.root);
   }
 
   minNode(node) {
@@ -68,7 +56,7 @@ class BST {
   }
 
   max() {
-    this.maxNode(this.root);
+    return this.maxNode(this.root);
   }
 
   maxNode(node) {
@@ -81,40 +69,53 @@ class BST {
     return null;
   }
 
+  iot(callback) {
+    this.iotNode(this.root, callback);
+  }
+
+  iotNode(node, callback) {
+    if (node) {
+      this.iotNode(node.left, callback);
+      callback(node.key);
+      this.iotNode(node.right, callback);
+    }
+  }
+
   search(key) {
-    this.searchNode(this.root, key);
+    let isExist = this.searchNode(this.root, key);
+    console.log(isExist);
+    return isExist;
   }
 
   searchNode(node, key) {
-    if (node === null) return false;
+    if (node === null) {
+      return false;
+    }
 
     if (key < node.key) {
-      this.searchNode(node.left, key);
-    } else if (key > node.key{
-      this.searchNode(node.right, key);
+      return this.searchNode(node.left, key);
+    } else if (key > node.key) {
+      return this.searchNode(node.right, key);
     } else {
       return true;
     }
-
-
   }
 
   remove(key) {
-    this.root = removeNode(this.root, key);
+    this.root = this.removeNode(this.root, key);
   }
-
 
   removeNode(node, key) {
     if (node === null) return null;
 
     if (key < node.key) {
       node.left = this.removeNode(node.left, key);
-      return node
+      return node;
     } else if (key > node.key) {
       node.right = this.removeNode(node.right, key);
       return node;
     } else {
-      if (node.right === null && node.right === null) {
+      if (node.left === null && node.right === null) {
         node = null;
         return node;
       }
@@ -132,7 +133,52 @@ class BST {
       let aux = this.minNode(node.right);
       node.key = aux.key;
       node.right = this.removeNode(node.right, aux.key);
-      reutrn node;
+      return node;
     }
   }
 }
+
+let tree = new BST();
+
+tree.insert(10);
+tree.insert(7);
+tree.insert(15);
+tree.insert(3);
+tree.insert(1);
+tree.insert(6);
+tree.insert(8);
+tree.insert(16);
+tree.insert(12);
+tree.insert(11);
+tree.insert(21);
+tree.insert(20);
+
+tree.iot(tree.print);
+
+console.log('///////////');
+
+console.log('min', tree.min());
+console.log('max', tree.max());
+console.log('///////////');
+console.log('///////////');
+tree.remove(1);
+tree.iot(tree.print);
+console.log('min', tree.min());
+console.log('///////////');
+console.log('///////////');
+console.log('///////////');
+
+tree.remove(21);
+tree.iot(tree.print);
+console.log('max', tree.max());
+console.log('///////////');
+console.log('///////////');
+console.log('///////////');
+
+tree.remove(20);
+tree.remove(3);
+
+tree.iot(tree.print);
+
+console.log(tree.search(6));
+console.log(tree.search(1));
