@@ -1,52 +1,3 @@
-class BST {
-  root = null;
-
-  constructor() {
-    this.root = null;
-  }
-
-  insertNode(rootNode, newNode) {
-    if (newNode.key < rootNode.key) {
-      if (rootNode.left === null) {
-        rootNode.left = newNode;
-      } else {
-        this.insertNode(rootNode.left, newNode);
-      }
-    } else {
-      if (rootNode.right === null) {
-        rootNode.right = newNode;
-      } else {
-        this.insertNode(rootNode.right, newNode);
-      }
-    }
-  }
-
-  insert(key) {
-    let node = new Node(key);
-    if (this.root === null) {
-      this.root = node;
-    } else {
-      this.insertNode(this.root, node);
-    }
-  }
-
-  iot(callback) {
-    this.iotNode(this.root, callback);
-  }
-
-  iotNode(node, callback) {
-    if (node !== null) {
-      this.iotNode(node.left, callback);
-      callback(node.key);
-      this.iotNode(node.right, callback);
-    }
-  }
-
-  print(value) {
-    console.log(value);
-  }
-}
-
 class Node {
   constructor(key) {
     this.left = null;
@@ -55,16 +6,133 @@ class Node {
   }
 }
 
-let tree = new BST();
-tree.insert(11);
-tree.insert(7);
-tree.insert(15);
-tree.insert(5);
-tree.insert(3);
-tree.insert(9);
-tree.insert(8);
-tree.insert(10);
-tree.insert(13);
-tree.insert(12);
+class BST {
+  root;
+  constructor() {
+    this.root = null;
+  }
 
-tree.iot(tree.print);
+  print(val) {
+    console.log(val);
+  }
+
+  insert(key) {
+    let node = new Node(key);
+
+    if (this.root === null) this.root = node;
+    else {
+      insertNode(this.root, node);
+    }
+  }
+
+  insertNode(node, newNode) {
+    if (newNode.key < node.key) {
+      if (node.left === null) {
+        node.left = node;
+      } else {
+        this.insertNode(node.left, newNode);
+      }
+    } else {
+      if (node.right === null) {
+        node.right = newNode;
+      } else {
+        this.insertNode(node.right, newNode);
+      }
+    }
+  }
+
+  iot() {
+    this.iotNode(this.root, callback);
+  }
+
+  iotNode(node, callback) {
+    if (node) {
+      this.iotNode(node.left, callback);
+      callback(node.key);
+      this.iotnode(node.right, callback);
+    }
+  }
+
+  min() {
+    this.minNode(this.root);
+  }
+
+  minNode(node) {
+    if (node) {
+      while (node && node.left !== null) {
+        node = node.left;
+      }
+      return node.key;
+    }
+    return null;
+  }
+
+  max() {
+    this.maxNode(this.root);
+  }
+
+  maxNode(node) {
+    if (node) {
+      while (node && node.right !== null) {
+        node = node.right;
+      }
+      return node.key;
+    }
+    return null;
+  }
+
+  search(key) {
+    this.searchNode(this.root, key);
+  }
+
+  searchNode(node, key) {
+    if (node === null) return false;
+
+    if (key < node.key) {
+      this.searchNode(node.left, key);
+    } else if (key > node.key{
+      this.searchNode(node.right, key);
+    } else {
+      return true;
+    }
+
+
+  }
+
+  remove(key) {
+    this.root = removeNode(this.root, key);
+  }
+
+
+  removeNode(node, key) {
+    if (node === null) return null;
+
+    if (key < node.key) {
+      node.left = this.removeNode(node.left, key);
+      return node
+    } else if (key > node.key) {
+      node.right = this.removeNode(node.right, key);
+      return node;
+    } else {
+      if (node.right === null && node.right === null) {
+        node = null;
+        return node;
+      }
+
+      if (node.left === null) {
+        node = node.right;
+        return node;
+      }
+
+      if (node.right === null) {
+        node = node.left;
+        return node;
+      }
+
+      let aux = this.minNode(node.right);
+      node.key = aux.key;
+      node.right = this.removeNode(node.right, aux.key);
+      reutrn node;
+    }
+  }
+}
