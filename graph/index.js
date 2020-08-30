@@ -48,16 +48,15 @@ class Graph {
     }
   }
 
-
   _bfs(v, callback) {
     let color = this.initColor();
     let queue = [];
     queue.push(v);
-    while (queue.length>0) {
+    while (queue.length > 0) {
       let u = queue.shift();
       color[u] = 'gray';
       let children = this.edgeList.get(u);
-      for (let i = 0; i < children.length; i++){
+      for (let i = 0; i < children.length; i++) {
         let w = children[i];
         if (color[w] === 'white') {
           color[w] = 'gray';
@@ -66,7 +65,31 @@ class Graph {
       }
       color[u] = 'black';
       if (callback) callback(u);
+    }
+  }
 
+  dfs(callback) {
+    let color = this.initColor();
+
+    for (let i = 0; i < this.node.length; i++) {
+      if (color[this.node[i]] == 'white') {
+        this.dfsVisit(this.node[i], color, callback);
+      }
+    }
+  }
+
+  dfsVisit(node, color, callback) {
+    color[node] = 'gray';
+    if (callback) callback(node);
+
+    let children = this.edgeList.get(node);
+    for (let i = 0; i < children.length; i++) {
+      let child = children[i];
+      if (color[child] === 'white') {
+        this.dfsVisit(child, color, callback);
+      }
+    }
+    color[node] = 'black';
   }
 }
 

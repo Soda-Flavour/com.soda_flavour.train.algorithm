@@ -121,13 +121,11 @@ class BST {
       }
 
       if (node.left === null) {
-        node = node.right;
-        return node;
+        return node.right;
       }
 
       if (node.right === null) {
-        node = node.left;
-        return node;
+        return node.left;
       }
 
       let aux = this.minNode(node.right);
