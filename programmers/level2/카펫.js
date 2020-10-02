@@ -1,10 +1,13 @@
 function solution(brown, yellow) {
-  let yellowHigh = 1;
-  if (yellow == 1) return [3, 3]
-  while (true) {
-    let yellowWidth = Math.floor(yellow / yellowHigh);
-    let brownCnt = (yellowWidth + 2) * 2 + yellowHigh * 2;
-    if (brownCnt == brown && yellowWidth <= yellowHigh) return [yellowHigh + 2, yellowWidth + 2];
-    yellowHigh++;
+  for (let i = 1; i <= yellow; i++) {
+    let heightY = i;
+    if (yellow % i != 0) continue;
+
+    let widthY = yellow / i;
+    let _brown = heightY * 2 + widthY * 2 + 4;
+    if (brown == _brown) {
+      return [widthY + 2, heightY + 2]
+    }
+
   }
 }
